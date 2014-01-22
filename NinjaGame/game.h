@@ -25,14 +25,21 @@ namespace ftw
 	private:
 
 		//FIELDS
+		string name;
+		int width;
+		int height;
+
+		//CHECK FIELDS
 		bool gameover;
-		Keyboard * kb;
+		bool initializedSDL;
+		bool initialized;
+		bool loaded;
 
 		//INIT SDL
 		bool InitSDL();
 
 		//QUIT SDL
-		bool QuitSDL();
+		void QuitSDL();
 
 	protected:
 
@@ -55,6 +62,8 @@ namespace ftw
 
 		//CONSTRUCTOR
 		Game();
+		Game(const string & name);
+		Game(const string & name, int width, int height);
 
 		//DECONSTRUCTOR
 		virtual ~Game();

@@ -5,7 +5,17 @@
 namespace ftw
 {
 	//CONSTRUCTOR
-	Game::Game() { }
+	Game::Game()
+		: name("TestGame"), width(640), height(480),
+		gameover(false), initializedSDL(false), initialized(false), loaded(false) { }
+
+	Game::Game(const string & name)
+		: name(name), width(640), height(480),
+		gameover(false), initializedSDL(false), initialized(false), loaded(false) { }
+
+	Game::Game(const string & name, int width, int height)
+		: name(name), width(width), height(height),
+		gameover(false), initializedSDL(false), initialized(false), loaded(false) { }
 
 	//DECONSTRUCTOR
 	Game::~Game() { }
@@ -13,55 +23,46 @@ namespace ftw
 	//RUN
 	int Game::Run()
 	{
-		//init SDL
-		if(!InitSDL()) { return 1; }
+		//init sdl
+		initializedSDL = InitSDL();
 
 		//init game
-		if(!Init()) { return 1; }
-		if(!Load()) { return 1; }
+		initialized = initializedSDL ? Init() : false;
 
+		//load game
+		loaded = initialized ? Load() : false;
+
+		//continue with game if all good
+		gameover = !loaded ? true : false;
+
+		//game loop
 		while(!gameover)
 		{
+			//update
 			Update();
+
+			//render
 			Render();
 		}
+		
+		//unload if loaded
+		if(loaded) { Unload(); }
 
-		if(!Unload()) { return 1; }
-
-		//quit SDL
-		if(!QuitSDL()) { return 1; }
+		//quit SDL if initialized
+		if(initializedSDL) { QuitSDL(); }
 
 		//return no error
-		return 0;
+		return loaded && initialized && initializedSDL ? 0 : 1;
 	}
 
 	//INITIALIZE
-	bool Game::Init()
-	{
-		//for testing
-		gameover = false;
-		kb = new Keyboard();
-
-		return true;
-	}
+	bool Game::Init() { return true; }
 
 	//LOAD
-	bool Game::Load()
-	{
-		//for testing
-		return true;
-	}
+	bool Game::Load() { return true; }
 
 	//UPDATE
-	void Game::Update()
-	{
-		//for testing
-		if(kb->Press(SDL_SCANCODE_ESCAPE))
-		{
-			gameover = true;
-		}
-		kb->Update();
-	}
+	void Game::Update() { }
 
 	//RENDER
 	void Game::Render()
@@ -73,13 +74,7 @@ namespace ftw
 	}
 
 	//UNLOAD
-	bool Game::Unload()
-	{
-		//for testing
-		delete kb;
-
-		return true;
-	}	
+	bool Game::Unload() { return true; }	
 
 	//INIT SDL
 	bool Game::InitSDL()
@@ -107,10 +102,10 @@ namespace ftw
 
 			//create window as a global pointer
 			window = SDL_CreateWindow(
-                GAME_NAME.c_str(),
+                name.c_str(),
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
-                RES_W, RES_H,
+                width, height,
                 SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 			//check valid window pointer
@@ -146,7 +141,6 @@ namespace ftw
 					}
 				}
 			}
-			
 		}
 
 		//return no error
@@ -154,7 +148,7 @@ namespace ftw
 	}
 
 	//QUIT SDL
-	bool Game::QuitSDL()
+	void Game::QuitSDL()
 	{
 		//destroy device
 		SDL_DestroyRenderer(device);
@@ -169,8 +163,5 @@ namespace ftw
 
 		//quit SDL
 		SDL_Quit();
-
-		//return no error
-		return true;
 	}
 }
