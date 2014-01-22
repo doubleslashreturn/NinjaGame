@@ -9,5 +9,6 @@ More will follow.
 CONTACT INFO
 ------------
 
-For Adam Litwin, try doubleslashreturn@gmail.com
-For Aaron Cameron, try acamero14@gmail.com
+For Project Head: Adam Litwin, try doubleslashreturn@gmail.com
+For Guy who is good at League of Legends: Aaron Cameron, try acamero14@gmail.com
+For Lead Game Designer: Ian McNear, try ian.m.mcnear@gmail.com
