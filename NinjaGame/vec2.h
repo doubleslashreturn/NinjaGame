@@ -9,9 +9,11 @@
 #include <float.h>
 
 //INCLUDE RELATIVE
+#include "helpers.h"
 
 //USING
 using std::ostream;
+using namespace helper;
 
 //NAMESPACE
 namespace ftw
@@ -94,13 +96,19 @@ namespace ftw
 		{ return ((v1.x * v2.x) + (v1.y * v2.y)); }
 
 		static const vec2 Min (const vec2 & v1, const vec2 & v2)
-		{ return vec2(v1.x < v2.x ? v1.x : v2.x, v1.y < v2.y ? v1.y : v2.y); }
+		{ return vec2(::min(v1.x, v2.x), ::min(v1.y, v2.y)); }
 
 		static const vec2 Max (const vec2 & v1, const vec2 & v2)
-		{ return vec2(v1.x > v2.x ? v1.x : v2.x, v1.y > v2.y ? v1.y : v2.y); }
+		{ return vec2(::max(v1.x, v2.x), ::max(v1.y, v2.y)); }
 
 		static const vec2 Clamp (const vec2 & v, const vec2 & min, const vec2 & max)
-		{ return Min(Max(v, min), max); }
+		{ return vec2(::clamp(v.x, min.x, max.x), ::clamp(v.y, min.y, max.y)); }
+
+		static const vec2 Lerp (const vec2 & v1, const vec2 & v2, float t)
+		{ return vec2(::lerp(v1.x, v2.x, t), ::lerp(v1.y, v2.y, t)); }
+
+		static const vec2 Barycentric (const vec2 & v1, const vec2 & v2, const vec2 & v3, float t1, float t2)
+		{ return vec2(::barycentric(v1.x, v2.x, v3.x, t1, t2), ::barycentric(v1.y, v2.y, v3.y, t1, t2)); }
 	};
 }
 
