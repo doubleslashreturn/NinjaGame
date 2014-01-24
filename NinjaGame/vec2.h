@@ -75,7 +75,7 @@ namespace ftw
 		const vec2 operator / (const float & s) const { vec2 r(*this); return r /= s; }
 
 		//FRIEND OPERATIONS
-		friend std::ostream & operator << (std::ostream & os, const vec2 & v)
+		friend ostream & operator << (ostream & os, const vec2 & v)
 		{ return os << "{" << v.x << ", " << v.y << "}"; }
 
 		//STATIC ARITHMETIC
